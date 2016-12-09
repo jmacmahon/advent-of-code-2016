@@ -4,9 +4,7 @@ const INPUT: &'static str = "R2, L3, R2, R4, L2, L1, R2, R4, R1, L4, L5, R5, R5,
 // const INPUT: &'static str = "R5, L5, R5, R3";
 
 #[derive(Debug)]
-enum Direction {
-    L, R
-}
+enum Direction { L, R }
 
 #[derive(Debug)]
 struct Step {
