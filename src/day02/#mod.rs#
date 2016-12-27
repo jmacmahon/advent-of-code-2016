@@ -1,3 +1,4 @@
+
 const INPUT: &'static [&'static str] = &[
 r#"ULL
 RRDDD
@@ -12,42 +13,58 @@ DRRDRRURURUDDDRULRUDLDLDULRLDURURUUURURLURURDDDDRULUDLDDRDDUDULRUUULRDUDULURLRUL
 
 const INDEX: usize = 1;
 
-const KEYPAD: [[char; 5]; 5] = [
-    [' ', ' ', '1', ' ', ' '],
-    [' ', '2', '3', '4', ' '],
-    ['5', '6', '7', '8', '9'],
-    [' ', 'A', 'B', 'C', ' '],
-    [' ', ' ', 'D', ' ', ' '],
-];
-
 pub fn main() {
-    let mut pos = (0, 2);
+    let mut button = 5;
     for line in INPUT[INDEX].split("\n") {
-        get_next_button_part2(&mut pos, line);
-        print!("{}", KEYPAD[pos.1][pos.0]);
+        button = get_next_button_part2(button, line);
+        print!("{}", button);
     }
     println!();
 }
 
-fn get_next_button_part2(pos: &mut (usize, usize), line: &str) {
+#[allow(dead_code)]
+fn get_next_button(prev_button: u32, line: &str) -> u32 {
+    let mut button = prev_button;
+
     for dir in line.chars() {
-        let new_pos;
-        match (dir, pos.0, pos.1) {
-            ('U', _, 0) | ('R', 4, _) | ('D', _, 4) | ('L', 0, _) => continue,
-            _ => {
-                new_pos = match dir {
-                    'U' => (pos.0, pos.1 - 1),
-                    'R' => (pos.0 + 1, pos.1),
-                    'D' => (pos.0, pos.1 + 1),
-                    'L' => (pos.0 - 1, pos.1),
-                    _ => panic!("Invalid direction: {:?}", dir),
-                };
-            }
-        }
-        if KEYPAD[new_pos.1][new_pos.0] == ' ' {
-            continue;
-        } else {
-            *pos = new_pos;
-        }
+        button = match (button, dir) {
+            (1, 'U') => 1,
+            (1, 'L') => 1,
+            (2, 'U') => 2,
+            (3, 'U') => 3,
+            (3, 'R') => 3,
+            (4, 'L') => 4,
+            (6, 'R') => 6,
+            (7, 'L') => 7,
+            (7, 'D') => 7,
+            (8, 'D') => 8,
+            (9, 'R') => 9,
+            (9, 'D') => 9,
+            (_, 'R') => button + 1,
+            (_, 'L') => button - 1,
+            (_, 'U') => button - 3,
+            (_, 'D') => button + 3,
+            (_, _) => panic!("Bad input: {:}, {:}", button, dir),
+        };
     }
+    button
+}
+
+#[allow(dead_code)]
+fn get_next_button_part2(prev_button: u32, line: &str) -> u32 {
+    const KEYPAD: [[char; 5]; 5] = [
+        [' ', ' ', '1', ' ', ' '],
+        [' ', ' ', '1', ' ', ' '],
+        [' ', ' ', '1', ' ', ' '],
+        [' ', ' ', '1', ' ', ' '],
+        [' ', ' ', '1', ' ', ' '],
+    ];
+    const KEYPAD_STR: &'static str = r#"
+  1
+ 234
+56789
+ ABC
+  D
+"#;
+    0
 }
