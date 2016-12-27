@@ -34,12 +34,12 @@ fn get_next_button_part2(pos: &mut (usize, usize), line: &str) {
         let new_pos;
         match (dir, pos.0, pos.1) {
             ('U', _, 0) | ('R', 4, _) | ('D', _, 4) | ('L', 0, _) => continue,
-            _ => {
+            (_, x, y) => {
                 new_pos = match dir {
-                    'U' => (pos.0, pos.1 - 1),
-                    'R' => (pos.0 + 1, pos.1),
-                    'D' => (pos.0, pos.1 + 1),
-                    'L' => (pos.0 - 1, pos.1),
+                    'U' => (x, y - 1),
+                    'R' => (x + 1, y),
+                    'D' => (x, y + 1),
+                    'L' => (x - 1, y),
                     _ => panic!("Invalid direction: {:?}", dir),
                 };
             }
