@@ -17,11 +17,11 @@ fn main_result() -> Result<u32, Box<Error>> {
         .map(|line| parse_and_verify(line))
         .collect::<Result<Vec<_>, _>>()?
         .iter()
-        .fold(0, |acc, &valid| acc + valid);
+        .fold(0, |acc, &valid| acc + valid as u32);
     Ok(total)
 }
 
-fn parse_and_verify(line: &str) -> Result<u32, Box<Error>> {
+fn parse_and_verify(line: &str) -> Result<bool, Box<Error>> {
     let mut numbers = line.split(" ")
         .filter(|s| !s.is_empty())
         .map(|s| s.parse::<u32>())
@@ -30,9 +30,5 @@ fn parse_and_verify(line: &str) -> Result<u32, Box<Error>> {
         Err("bad line")?;
     }
     numbers.sort();
-    if numbers[0] + numbers[1] <= numbers[2] {
-        Ok(0)
-    } else {
-        Ok(1)
-    }
+    Ok(numbers[0] + numbers[1] > numbers[2])
 }
