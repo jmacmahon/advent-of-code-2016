@@ -1,13 +1,4 @@
-use std::fs::File;
-use std::io::Read;
 use std::error::Error;
-
-fn read_file(path: &str) -> Result<String, Box<Error>> {
-    let mut f = File::open(path)?;
-    let mut buf = String::new();
-    f.read_to_string(&mut buf)?;
-    Ok(buf)
-}
 
 fn parse_line(line: &str) -> Result<Vec<u32>, Box<Error>> {
     let numbers = line.split(" ")
@@ -25,6 +16,7 @@ fn parse_line(line: &str) -> Result<Vec<u32>, Box<Error>> {
 #[allow(dead_code)]
 pub mod part1 {
     use std::error::Error;
+    use util;
 
     pub fn main() {
         match main_result() {
@@ -34,7 +26,7 @@ pub mod part1 {
     }
 
     fn main_result() -> Result<u32, Box<Error>> {
-        let buf = super::read_file("inputs/day03/input.txt")?;
+        let buf = util::read_file("inputs/day03/input.txt")?;
         let total = buf.lines()
         .map(parse_and_verify)
         .collect::<Result<Vec<_>, _>>()?
@@ -50,8 +42,10 @@ pub mod part1 {
     }
 }
 
+#[allow(dead_code)]
 pub mod part2 {
     use std::error::Error;
+    use util;
 
     pub fn main() {
         match main_result() {
@@ -61,7 +55,7 @@ pub mod part2 {
     }
 
     fn main_result() -> Result<u32, Box<Error>> {
-        let buf = super::read_file("inputs/day03/input.txt")?;
+        let buf = util::read_file("inputs/day03/input.txt")?;
         let mut lines = buf.lines();
         let mut three_lines_res;
         let mut total = 0;
